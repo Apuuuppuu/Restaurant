@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Account</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #f7d794, #f8a5c2);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background: #fff;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            width: 100%;
+        }
+
+        .container h2 {
+            margin-bottom: 1rem;
+            text-align: center;
+            color: #333;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+            color: #555;
+        }
+
+        .form-group input {
+            width: 90%;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #f7d794;
+            box-shadow: 0 0 5px rgba(247, 215, 148, 0.5);
+        }
+
+        .form-group small {
+            color: red;
+            display: none;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 0.8rem;
+            background: #f8a5c2;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .btn:hover {
+            background: #f78fb3;
+        }
+
+        .success {
+            text-align: center;
+            color: green;
+            margin-top: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Create Account</h2>
+        <form id="createAccountForm">
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" placeholder="Enter your username" required>
+                <small>Username is required</small>
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" placeholder="Enter your email" required>
+                <small>Enter a valid email address</small>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" placeholder="Enter your password" required>
+                <small>Password must be at least 6 characters</small>
+            </div>
+            <div class="form-group">
+                <label for="confirmPassword">Confirm Password</label>
+                <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm your password" required>
+                <small>Passwords must match</small>
+            </div>
+            <button type="submit" class="btn">Create Account</button>
+        </form>
+        <p class="success" id="successMessage"></p>
+    </div>
+
+    <script>
+        const form = document.getElementById('createAccountForm');
+        const successMessage = document.getElementById('successMessage');
+
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            // Reset error messages
+            document.querySelectorAll('.form-group small').forEach(small => small.style.display = 'none');
+
+            const username = document.getElementById('username');
+            const email = document.getElementById('email');
+            const password = document.getElementById('password');
+            const confirmPassword = document.getElementById('confirmPassword');
+
+            let valid = true;
+
+            if (!username.value.trim()) {
+                showError(username, 'Username is required');
+                valid = false;
+            }
+
+            if (!email.value.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
+                showError(email, 'Enter a valid email address');
+                valid = false;
+            }
+
+            if (password.value.length < 6) {
+                showError(password, 'Password must be at least 6 characters');
+                valid = false;
+            }
+
+            if (password.value !== confirmPassword.value) {
+                showError(confirmPassword, 'Passwords must match');
+                valid = false;
+            }
+
+            if (valid) {
+                successMessage.textContent = 'Account created successfully!';
+                form.reset();
+                setTimeout(() => {
+                    window.location.href = '2nd.html'; // Redirect to the home page
+                }, 2000);
+            }
+        });
+
+        function showError(input, message) {
+            const formGroup = input.parentElement;
+            const small = formGroup.querySelector('small');
+            small.textContent = message;
+            small.style.display = 'block';
+        }
+    </script>
+</body>
+</html>
